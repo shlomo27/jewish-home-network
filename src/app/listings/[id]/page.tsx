@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { initials } from "@/lib/initials";
 
 const KIND_LABELS: Record<string, string> = {
   long_term_rental: "Long-term rental",
@@ -60,12 +61,15 @@ export default async function ListingDetailPage({
         {listing.description}
       </p>
 
-      <div className="mt-8 rounded-lg border border-zinc-200 p-4 text-sm dark:border-zinc-800">
-        <p className="font-medium">Listed by {listing.owner.name}</p>
-        <p className="mt-1 text-zinc-500">
-          Community Score, Trust Score, and in-platform messaging land in a later iteration — see the
-          product blueprint in <code>docs/PRODUCT_BLUEPRINT.md</code>.
-        </p>
+      <div className="mt-8 flex items-start gap-3 rounded-2xl border border-amber-100 p-4 text-sm dark:border-amber-950">
+        <span className="avatar-badge h-9 w-9 text-sm">{initials(listing.owner.name)}</span>
+        <div>
+          <p className="font-medium">Shared by {listing.owner.name}</p>
+          <p className="mt-1 text-zinc-500">
+            Community Score, Trust Score, and in-platform messaging land in a later iteration — see the
+            product blueprint in <code>docs/PRODUCT_BLUEPRINT.md</code>.
+          </p>
+        </div>
       </div>
     </main>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { COUNTRIES } from "@/lib/countries";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("seeker");
+  const [country, setCountry] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +25,7 @@ export default function SignupPage() {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role }),
+        body: JSON.stringify({ name, email, password, role, country: country || undefined }),
       });
 
       if (!res.ok) {
@@ -50,16 +52,14 @@ export default function SignupPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-6 py-10">
-      <h1 className="text-xl font-semibold tracking-tight">Create your account</h1>
+      <h1 className="text-xl font-semibold tracking-tight">Join the community</h1>
+      <p className="mt-1 text-sm text-zinc-500">
+        Tell us a bit about yourself so the community knows who you are.
+      </p>
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
         <div>
           <label className="text-sm font-medium">Name</label>
-          <input
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          />
+          <input required value={name} onChange={(e) => setName(e.target.value)} className="input" />
         </div>
         <div>
           <label className="text-sm font-medium">Email</label>
@@ -68,7 +68,7 @@ export default function SignupPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="input"
           />
         </div>
         <div>
@@ -79,16 +79,23 @@ export default function SignupPage() {
             minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="input"
           />
         </div>
         <div>
+          <label className="text-sm font-medium">Country</label>
+          <select value={country} onChange={(e) => setCountry(e.target.value)} className="input">
+            <option value="">Select a country...</option>
+            {COUNTRIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label className="text-sm font-medium">I am a...</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-          >
+          <select value={role} onChange={(e) => setRole(e.target.value)} className="input">
             <option value="seeker">Home seeker</option>
             <option value="owner">Property owner / landlord</option>
             <option value="agent">Agency / broker</option>
@@ -100,7 +107,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
+          className="btn-primary mt-2 rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
         >
           {loading ? "Creating account..." : "Sign up"}
         </button>

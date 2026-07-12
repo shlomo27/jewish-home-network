@@ -1,11 +1,27 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { initials } from "@/lib/initials";
 
 const KIND_LABELS: Record<string, string> = {
   long_term_rental: "Long-term rental",
   short_term_rental: "Short-term rental",
   sale: "For sale",
 };
+
+const TRUST_PILLARS = [
+  {
+    title: "Real, verified people",
+    body: "Every host and seeker builds a profile — no anonymous listings, no guessing who you're talking to.",
+  },
+  {
+    title: "Know the neighborhood",
+    body: "See what's actually nearby — synagogues, kosher shops, schools, parks — before you ever reach out.",
+  },
+  {
+    title: "Talk directly, safely",
+    body: "Message hosts right on the platform. No middlemen, no pressure, no surprises.",
+  },
+];
 
 function formatPrice(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
@@ -31,18 +47,33 @@ export default async function Home({
           }
         : {}),
     },
-    include: { property: true },
+    include: { property: true, owner: { select: { name: true } } },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Find your next home</h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Verified listings, real people, and a clear view of the community around every property.
+      <div className="mb-10 text-center sm:text-left">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          A community you can trust, wherever you land
+        </h1>
+        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+          Kehila Network connects people finding a home with real, verified hosts across the community —
+          not a cold listings catalog.
         </p>
+      </div>
+
+      <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {TRUST_PILLARS.map((pillar) => (
+          <div
+            key={pillar.title}
+            className="rounded-2xl border border-amber-100 bg-white/60 p-4 dark:border-amber-950 dark:bg-white/5"
+          >
+            <p className="font-medium">{pillar.title}</p>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{pillar.body}</p>
+          </div>
+        ))}
       </div>
 
       <form className="mb-8 flex gap-2" action="/">
@@ -51,21 +82,18 @@ export default async function Home({
           name="q"
           defaultValue={q ?? ""}
           placeholder="Search by city, neighborhood, or keyword..."
-          className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+          className="input"
         />
-        <button
-          type="submit"
-          className="rounded-lg bg-zinc-900 px-5 py-2 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-900"
-        >
+        <button type="submit" className="btn-primary rounded-lg px-5 py-2 text-sm font-medium">
           Search
         </button>
       </form>
 
       {listings.length === 0 ? (
         <p className="text-sm text-zinc-500">
-          No listings yet{q ? " for this search" : ""}.{" "}
+          No homes shared yet{q ? " for this search" : ""}.{" "}
           <Link href="/listings/new" className="underline">
-            Be the first to list a property
+            Be the first to share one with the community
           </Link>
           .
         </p>
@@ -75,7 +103,7 @@ export default async function Home({
             <Link
               key={listing.id}
               href={`/listings/${listing.id}`}
-              className="group overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+              className="group overflow-hidden rounded-2xl border border-amber-100 bg-white transition hover:shadow-md dark:border-amber-950 dark:bg-zinc-900"
             >
               <div className="aspect-[4/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                 {listing.photoUrl ? (
@@ -105,6 +133,10 @@ export default async function Home({
                     <span className="text-xs font-normal text-zinc-500">/mo</span>
                   )}
                 </p>
+                <div className="mt-3 flex items-center gap-2 border-t border-zinc-100 pt-3 text-sm text-zinc-500 dark:border-zinc-800">
+                  <span className="avatar-badge h-6 w-6 text-[10px]">{initials(listing.owner.name)}</span>
+                  {listing.owner.name}
+                </div>
               </div>
             </Link>
           ))}

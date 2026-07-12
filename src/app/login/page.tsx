@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-6 py-10">
-      <h1 className="text-xl font-semibold tracking-tight">Log in</h1>
+      <h1 className="text-xl font-semibold tracking-tight">Welcome back</h1>
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
         <div>
           <label className="text-sm font-medium">Email</label>
@@ -40,7 +40,7 @@ export default function LoginPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="input"
           />
         </div>
         <div>
@@ -50,7 +50,7 @@ export default function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="input"
           />
         </div>
 
@@ -59,7 +59,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
+          className="btn-primary mt-2 rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
         >
           {loading ? "Logging in..." : "Log in"}
         </button>

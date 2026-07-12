@@ -51,7 +51,7 @@ export default function NewListingPage() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
-      <h1 className="text-xl font-semibold tracking-tight">List a property</h1>
+      <h1 className="text-xl font-semibold tracking-tight">Share a home with the community</h1>
       <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label className="text-sm font-medium">Title</label>
@@ -127,9 +127,9 @@ export default function NewListingPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 sm:col-span-2"
+          className="btn-primary mt-2 rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50 sm:col-span-2"
         >
-          {loading ? "Publishing..." : "Publish listing"}
+          {loading ? "Sharing..." : "Share with the community"}
         </button>
       </form>
     </main>
