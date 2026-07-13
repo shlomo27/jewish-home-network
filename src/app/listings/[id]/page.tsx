@@ -57,6 +57,26 @@ export default async function ListingDetailPage({
         {listing.sqft != null && <span>{listing.sqft} sqft</span>}
       </div>
 
+      {(listing.property.shabbatElevator || listing.property.withinEruv || listing.property.kosherKitchen) && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {listing.property.shabbatElevator && (
+            <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+              Shabbat elevator
+            </span>
+          )}
+          {listing.property.withinEruv && (
+            <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+              Within an eruv
+            </span>
+          )}
+          {listing.property.kosherKitchen && (
+            <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+              Kosher-certified kitchen
+            </span>
+          )}
+        </div>
+      )}
+
       <p className="mt-6 whitespace-pre-wrap text-sm leading-6 text-zinc-700 dark:text-zinc-300">
         {listing.description}
       </p>

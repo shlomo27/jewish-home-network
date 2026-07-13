@@ -127,6 +127,27 @@ export default async function Home({
                 <p className="text-sm text-zinc-500">
                   {listing.property.city}, {listing.property.country}
                 </p>
+                {(listing.property.shabbatElevator ||
+                  listing.property.withinEruv ||
+                  listing.property.kosherKitchen) && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {listing.property.shabbatElevator && (
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                        Shabbat elevator
+                      </span>
+                    )}
+                    {listing.property.withinEruv && (
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                        Eruv
+                      </span>
+                    )}
+                    {listing.property.kosherKitchen && (
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                        Kosher kitchen
+                      </span>
+                    )}
+                  </div>
+                )}
                 <p className="mt-2 font-semibold">
                   {formatPrice(Number(listing.priceAmount), listing.priceCurrency)}
                   {listing.listingKind !== "sale" && (

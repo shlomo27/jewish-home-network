@@ -19,6 +19,9 @@ const createListingSchema = z.object({
   country: z.string().min(1),
   postalCode: z.string().optional(),
   propertyType: z.string().min(1),
+  shabbatElevator: z.boolean().optional(),
+  withinEruv: z.boolean().optional(),
+  kosherKitchen: z.boolean().optional(),
 });
 
 export async function GET(request: Request) {
@@ -70,6 +73,9 @@ export async function POST(request: Request) {
       country: data.country,
       postalCode: data.postalCode,
       propertyType: data.propertyType,
+      shabbatElevator: data.shabbatElevator,
+      withinEruv: data.withinEruv,
+      kosherKitchen: data.kosherKitchen,
       ownerId: userId,
     },
   });

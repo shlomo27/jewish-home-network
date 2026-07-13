@@ -30,6 +30,9 @@ export default function NewListingPage() {
       country: form.get("country"),
       postalCode: form.get("postalCode") || undefined,
       propertyType: form.get("propertyType"),
+      shabbatElevator: form.get("shabbatElevator") === "on",
+      withinEruv: form.get("withinEruv") === "on",
+      kosherKitchen: form.get("kosherKitchen") === "on",
     };
 
     const res = await fetch("/api/listings", {
@@ -120,6 +123,27 @@ export default function NewListingPage() {
         <div>
           <label className="text-sm font-medium">Postal code</label>
           <input name="postalCode" className="input" />
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="text-sm font-medium">Practical &amp; accessibility info</label>
+          <p className="mt-1 text-xs text-zinc-500">
+            Helpful details about the property itself — check anything that applies.
+          </p>
+          <div className="mt-2 flex flex-col gap-2 text-sm">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="shabbatElevator" />
+              Shabbat elevator
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="withinEruv" />
+              Within an eruv boundary
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" name="kosherKitchen" />
+              Kosher-certified kitchen
+            </label>
+          </div>
         </div>
 
         {error && <p className="text-sm text-red-600 sm:col-span-2">{error}</p>}

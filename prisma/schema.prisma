@@ -56,6 +56,11 @@ model Property {
   owner             User     @relation(fields: [ownerId], references: [id])
   createdAt         DateTime @default(now())
 
+  // Practical, place-based infrastructure info (not about the people who live there).
+  shabbatElevator    Boolean?
+  withinEruv         Boolean?
+  kosherKitchen      Boolean?
+
   listings          Listing[]
 
   @@map("properties")
